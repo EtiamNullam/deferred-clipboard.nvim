@@ -18,7 +18,7 @@ M.setup = function()
             'FocusLost',
             'VimLeavePre'
         }, {
-            group = sync_clipboard_group,
+            group = deferred_clipboard_sync_group,
             pattern = '*',
             callback = function()
                 copy_register('"', '+')
@@ -29,7 +29,7 @@ M.setup = function()
     vim.api.nvim_create_autocmd(
         'FocusGained',
         {
-            group = sync_clipboard_group,
+            group = deferred_clipboard_sync_group,
             pattern = '*',
             callback = function()
                 copy_register('+', '"')
