@@ -20,7 +20,7 @@ Apparently the performance issue is specific to `Neovim` and does not apply to `
 
 ## Requirements
 
-- `Neovim`
+- `Neovim >= 0.7.0`
 - `Neovim` client which supports both focus change events - `FocusGained` and `FocusLost`
 
 ## Installation
