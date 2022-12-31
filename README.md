@@ -11,10 +11,12 @@ This plugin synchronizes the clipboard of your operating system with [`Neovim`](
 
 It works both ways so you can `y`ank something in `Neovim` to be available in your OS, but also copy something in your OS and `p`ut in `Neovim`.
 
-Apparently the performance issue is specific to `Neovim` and does not apply to `Vim`. See more details and track the status of the issue here:
-https://github.com/neovim/neovim/issues/11804
 
 The content of system clipboard will also be written to the unnamed register (`"`) on `.setup()` if its empty, and read from unnamed register (`"`) just before `Neovim` exits, so your latest yank won't be lost even if your client doesn't support focus change events.
+
+### [Vim](https://www.vim.org)
+
+Apparently the performance issue is specific to `Neovim` and does not apply to `Vim`.
 
 ## Requirements
 
