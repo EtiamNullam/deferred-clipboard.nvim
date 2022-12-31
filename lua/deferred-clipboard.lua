@@ -20,6 +20,8 @@ local function schedule_disable_of_continuous_clipboard_sync_on_focus_change()
     })
 end
 
+---@param from string
+---@param to string
 local function copy_register(from, to)
     vim.fn.setreg(
         to,
