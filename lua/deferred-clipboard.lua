@@ -21,10 +21,10 @@ local function schedule_disable_of_continuous_clipboard_sync_on_focus_change()
 end
 
 local function copy_register(from, to)
-		vim.fn.setreg(
-				to,
-				vim.fn.getreginfo(from)
-		)
+    vim.fn.setreg(
+        to,
+        vim.fn.getreginfo(from)
+    )
 end
 
 local function schedule_clipboard_sync_on_focus_change()
@@ -55,7 +55,7 @@ end
 
 function M.setup()
     schedule_clipboard_sync_on_focus_change()
-		copy_register('+', '"')
+    copy_register('+', '"')
 
     if is_continuous_clipboard_sync_enabled() then
         schedule_disable_of_continuous_clipboard_sync_on_focus_change()
