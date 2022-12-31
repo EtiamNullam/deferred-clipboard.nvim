@@ -53,9 +53,18 @@ local function schedule_clipboard_sync_on_focus_change()
     })
 end
 
+---@param register string
+---@return boolean
+local function is_register_empty(register)
+    return vim.fn.getreg(register) == ''
+end
+
 function M.setup()
     schedule_clipboard_sync_on_focus_change()
-    copy_register('+', '"')
+
+    if is_register_empty('"') then
+        copy_register('+', '"')
+    end
 
     if is_continuous_clipboard_sync_enabled() then
         schedule_disable_of_continuous_clipboard_sync_on_focus_change()
