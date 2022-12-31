@@ -23,7 +23,7 @@ end
 local function copy_register(from, to)
     vim.fn.setreg(
         to,
-        vim.fn.getreginfo(from)
+        vim.fn.getreg(from)
     )
 end
 
