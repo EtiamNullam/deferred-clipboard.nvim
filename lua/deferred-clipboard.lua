@@ -20,18 +20,18 @@ local function schedule_disable_of_continuous_clipboard_sync_on_focus_change()
     })
 end
 
+local function copy_register(from, to)
+		vim.fn.setreg(
+				to,
+				vim.fn.getreginfo(from)
+		)
+end
+
 local function schedule_clipboard_sync_on_focus_change()
     local deferred_clipboard_sync_group = vim.api.nvim_create_augroup(
         'DeferredClipboardSync',
         { clear = true }
     )
-
-    local function copy_register(from, to)
-        vim.fn.setreg(
-            to,
-            vim.fn.getreginfo(from)
-        )
-    end
 
     vim.api.nvim_create_autocmd({
         'FocusLost',
@@ -55,6 +55,7 @@ end
 
 function M.setup()
     schedule_clipboard_sync_on_focus_change()
+		copy_register('+', '"')
 
     if is_continuous_clipboard_sync_enabled() then
         schedule_disable_of_continuous_clipboard_sync_on_focus_change()
