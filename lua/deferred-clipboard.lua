@@ -64,7 +64,7 @@ end
 ---@class InitOptions
     ---@field lazy? boolean
 
----@param options InitOptions
+---@param options? InitOptions
 local function init(options)
     schedule_clipboard_sync_on_focus_change()
 
@@ -77,7 +77,7 @@ local function init(options)
     end
 end
 
----@param options InitOptions
+---@param options? InitOptions
 function M.setup(options)
     options = options or {}
 
