@@ -33,23 +33,35 @@ Plug 'EtiamNullam/deferred-clipboard.nvim'
 
 ## Usage
 
-Basic example:
+### Fallback (Recommended)
+
+```lua
+vim.o.clipboard = 'unnamedplus' -- or your preferred setting for clipboard
+
+require('deferred-clipboard').setup()
+```
+
+The continuous clipboard sync (`clipboard=unnamed*`) will be automatically disabled when support for focus change events is detected in your terminal or `Neovim` client, but will be left untouched otherwise.
+
+### Lazy
+
+You can use `lazy` option, off by default, to improve startup time by delaying access of system clipboard. Make sure to disable it if you run into any trouble, for example if you load `shada` on launch but still want the clipboard to be loaded into unnamed register (`"`).
+
+```lua
+require('deferred-clipboard').setup {
+  lazy = true,
+}
+```
+
+### Basic
 
 ```lua
 require('deferred-clipboard').setup()
 ```
 
-NOTE: Some terminals and `Neovim` UIs do not support focus change events, so you might want to rely on `clipboard=unnamed` or `clipboard=unnamedplus` on them.
+It is required to call `setup()` to start the plugin, which will load the system clipboard to the unnamed register (`"`), hook up focus change events and disable continuous clipboard sync if it's enabled.
 
-In that case set the `clipboard` option before running the `.setup()` function, this way it will be automatically disabled when focus change events support is detected and will stay enabled if they are not supported.
-
-Example with the continuous sync as a fallback:
-
-```lua
-vim.o.clipboard = 'unnamedplus'
-
-require('deferred-clipboard').setup()
-```
+Calling it with no arguments will use default settings.
 
 ## Known issues
 
