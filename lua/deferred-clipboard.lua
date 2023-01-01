@@ -1,6 +1,6 @@
 local M = {}
 
-M.version = '0.4.0'
+M.version = '0.5.0'
 
 local function is_continuous_clipboard_sync_enabled()
     return vim.o.clipboard ~= nil
@@ -81,7 +81,7 @@ end
 function M.setup(options)
     options = options or {}
 
-    if options.lazy == true or options.lazy == nil then
+    if options.lazy then
         vim.schedule(function()
             init(options)
         end)
