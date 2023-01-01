@@ -21,7 +21,7 @@ Apparently the performance issue is specific to `Neovim` and does not apply to `
 ## Requirements
 
 - `Neovim >= 0.7.0`
-- `Neovim` client which supports both focus change events - `FocusGained` and `FocusLost`
+- (optional, recommended) `Neovim` client which supports both focus change events - `FocusGained` and `FocusLost`
 
 ## Installation
 
@@ -65,4 +65,4 @@ Calling it with no arguments will use default settings.
 
 ## Known issues
 
-- Won't trigger when `cmdline` is open/busy
+- Clipboard will not be synchronized if `Neovim` is busy or when `hit-enter-prompt` is open
