@@ -70,7 +70,9 @@ function M.setup(options)
 
     schedule_clipboard_sync_on_focus_change()
 
-    if is_register_empty('"') then
+    if is_continuous_clipboard_sync_enabled() then
+        schedule_disable_of_continuous_clipboard_sync_on_focus_change()
+    elseif is_register_empty('"') then
         if options.lazy then
             vim.schedule(function()
                 copy_register('+', '"')
@@ -78,10 +80,6 @@ function M.setup(options)
         else
             copy_register('+', '"')
         end
-    end
-
-    if is_continuous_clipboard_sync_enabled() then
-        schedule_disable_of_continuous_clipboard_sync_on_focus_change()
     end
 end
 
