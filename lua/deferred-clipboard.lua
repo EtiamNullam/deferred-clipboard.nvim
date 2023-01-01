@@ -1,6 +1,6 @@
 local M = {}
 
-M.version = '0.5.0'
+M.version = '0.6.0'
 
 local function is_continuous_clipboard_sync_enabled()
     return vim.o.clipboard ~= nil
@@ -65,28 +65,23 @@ end
     ---@field lazy? boolean
 
 ---@param options? InitOptions
-local function init(options)
+function M.setup(options)
+    options = options or {}
+
     schedule_clipboard_sync_on_focus_change()
 
     if is_register_empty('"') then
-        copy_register('+', '"')
+        if options.lazy then
+            vim.schedule(function()
+                copy_register('+', '"')
+            end)
+        else
+            copy_register('+', '"')
+        end
     end
 
     if is_continuous_clipboard_sync_enabled() then
         schedule_disable_of_continuous_clipboard_sync_on_focus_change()
-    end
-end
-
----@param options? InitOptions
-function M.setup(options)
-    options = options or {}
-
-    if options.lazy then
-        vim.schedule(function()
-            init(options)
-        end)
-    else
-        init(options)
     end
 end
 
