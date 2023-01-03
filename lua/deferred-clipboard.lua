@@ -61,10 +61,10 @@ local function is_register_empty(register)
     return vim.fn.getreg(register) == ''
 end
 
----@class InitOptions
+---@class DeferredClipboard.InitOptions
     ---@field lazy? boolean
 
----@param options? InitOptions
+---@param options? DeferredClipboard.InitOptions
 function M.setup(options)
     options = options or {}
 
