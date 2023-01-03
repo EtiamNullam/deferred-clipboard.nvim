@@ -2,6 +2,7 @@ local M = {}
 
 M.version = '0.6.0'
 
+---@return boolean
 local function is_continuous_clipboard_sync_enabled()
     return vim.o.clipboard ~= nil
         and vim.o.clipboard ~= ''
