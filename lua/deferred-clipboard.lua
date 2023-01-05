@@ -7,17 +7,12 @@ local function is_continuous_clipboard_sync_enabled()
         and vim.o.clipboard ~= ''
 end
 
-local function schedule_disable_of_continuous_clipboard_sync_on_focus_change()
-    vim.api.nvim_create_autocmd({
-        'FocusGained',
-        'FocusLost',
-    }, {
-        once = true,
-        pattern = '*',
-        callback = function()
-            vim.o.clipboard = nil
-        end,
-    })
+local function disable_continuous_clipboard_sync()
+    local hasFocusLostEvent = vim.api.nvim_command_output(([[echo exists('##FocusLost')]]))
+    local hasFocusGainedEvent = vim.api.nvim_command_output(([[echo exists('##FocusGained')]]))
+    if hasFocusLostEvent == '1' or hasFocusGainedEvent == '1' then
+        vim.o.clipboard = nil
+    end
 end
 
 ---@param from string
@@ -71,7 +66,7 @@ function M.setup(options)
     schedule_clipboard_sync_on_focus_change()
 
     if is_continuous_clipboard_sync_enabled() then
-        schedule_disable_of_continuous_clipboard_sync_on_focus_change()
+        disable_continuous_clipboard_sync()
     elseif is_register_empty('"') then
         if options.lazy then
             vim.schedule(function()
