@@ -1,6 +1,6 @@
 local M = {}
 
-M.version = '0.6.1'
+M.version = '0.7.0'
 
 ---@return boolean
 local function is_continuous_clipboard_sync_enabled()
@@ -19,13 +19,33 @@ local function schedule_disable_of_continuous_clipboard_sync_on_focus_change()
     })
 end
 
----@param from string
----@param to string
-local function copy_register(from, to)
+---@param content? string
+function M.write(content)
+    content = type(content) == 'string' and content
+        or vim.fn.getreg('"')
+
+    if content ~= '' then
+        vim.fn.setreg(
+            '+',
+            content
+        )
+    end
+end
+
+---@return string | nil
+function M.read()
+    local loaded_content = vim.fn.getreg('+')
+
+    if loaded_content == '' then
+        return nil
+    end
+
     vim.fn.setreg(
-        to,
-        vim.fn.getreg(from)
+        '"',
+        loaded_content
     )
+
+    return loaded_content
 end
 
 local function schedule_clipboard_sync_on_focus_change()
@@ -39,23 +59,31 @@ local function schedule_clipboard_sync_on_focus_change()
         'VimLeavePre'
     }, {
         group = deferred_clipboard_sync_group,
-        callback = function()
-            copy_register('"', '+')
-        end
+        callback = M.write,
     })
 
     vim.api.nvim_create_autocmd('FocusGained', {
         group = deferred_clipboard_sync_group,
-        callback = function()
-            copy_register('+', '"')
-        end
+        callback = M.read,
     })
 end
+
 
 ---@param register string
 ---@return boolean
 local function is_register_empty(register)
     return vim.fn.getreg(register) == ''
+end
+
+---@param lazy? boolean
+local function initialize_unnamed_register(lazy)
+    if not is_continuous_clipboard_sync_enabled() then
+        if lazy == true then
+            vim.schedule(initialize_unnamed_register)
+        else
+            M.read()
+        end
+    end
 end
 
 ---@class DeferredClipboard.InitOptions
@@ -70,13 +98,7 @@ function M.setup(options)
     if is_continuous_clipboard_sync_enabled() then
         schedule_disable_of_continuous_clipboard_sync_on_focus_change()
     elseif is_register_empty('"') then
-        if options.lazy then
-            vim.schedule(function()
-                copy_register('+', '"')
-            end)
-        else
-            copy_register('+', '"')
-        end
+        initialize_unnamed_register(options.lazy)
     end
 end
 
