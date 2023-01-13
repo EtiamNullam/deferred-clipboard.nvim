@@ -81,6 +81,13 @@ local function is_register_empty(register)
     return vim.fn.getreg(register) == ''
 end
 
+---@param value '' | 'unnamed' | 'unnamedplus'
+local function setup_fallback(value)
+    if value ~= nil then
+        vim.o.clipboard = value
+    end
+end
+
 ---@param lazy? boolean
 local function initialize_unnamed_register(lazy)
     if not is_continuous_clipboard_sync_enabled() then
@@ -94,10 +101,13 @@ end
 
 ---@class DeferredClipboard.InitOptions
     ---@field lazy? boolean
+    ---@field fallback? '' | 'unnamed' | 'unnamedplus'
 
 ---@param options? DeferredClipboard.InitOptions
 function M.setup(options)
     options = options or {}
+
+    setup_fallback(options.fallback)
 
     schedule_clipboard_sync_on_focus_change()
 
