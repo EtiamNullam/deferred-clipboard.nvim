@@ -8,11 +8,17 @@ local function is_continuous_clipboard_sync_enabled()
 end
 
 local function schedule_disable_of_continuous_clipboard_sync_on_focus_change()
+    local group_id = vim.api.nvim_create_augroup(
+        'DisableContinuousClipboardSync',
+        { clear = true }
+    )
+
     vim.api.nvim_create_autocmd({
         'FocusGained',
         'FocusLost',
     }, {
         once = true,
+        group = group_id,
         callback = function()
             vim.o.clipboard = ''
         end,
