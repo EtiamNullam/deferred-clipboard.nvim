@@ -102,6 +102,7 @@ end
 ---@class DeferredClipboard.InitOptions
     ---@field lazy? boolean
     ---@field fallback? '' | 'unnamed' | 'unnamedplus'
+    ---@field force_init_unnamed? boolean
 
 ---@param options? DeferredClipboard.InitOptions
 function M.setup(options)
@@ -113,7 +114,7 @@ function M.setup(options)
 
     if is_continuous_clipboard_sync_enabled() then
         schedule_disable_of_continuous_clipboard_sync_on_focus_change()
-    elseif is_register_empty('"') then
+    elseif options.force_init_unnamed or is_register_empty('"') then
         initialize_unnamed_register(options.lazy)
     end
 end
