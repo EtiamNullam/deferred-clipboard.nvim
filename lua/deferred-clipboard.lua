@@ -1,11 +1,10 @@
 local M = {}
 
-M.version = '0.6.0'
+M.version = '0.6.1'
 
 ---@return boolean
 local function is_continuous_clipboard_sync_enabled()
-    return vim.o.clipboard ~= nil
-        and vim.o.clipboard ~= ''
+    return vim.o.clipboard ~= ''
 end
 
 local function schedule_disable_of_continuous_clipboard_sync_on_focus_change()
@@ -14,9 +13,8 @@ local function schedule_disable_of_continuous_clipboard_sync_on_focus_change()
         'FocusLost',
     }, {
         once = true,
-        pattern = '*',
         callback = function()
-            vim.o.clipboard = nil
+            vim.o.clipboard = ''
         end,
     })
 end
@@ -41,7 +39,6 @@ local function schedule_clipboard_sync_on_focus_change()
         'VimLeavePre'
     }, {
         group = deferred_clipboard_sync_group,
-        pattern = '*',
         callback = function()
             copy_register('"', '+')
         end
@@ -49,7 +46,6 @@ local function schedule_clipboard_sync_on_focus_change()
 
     vim.api.nvim_create_autocmd('FocusGained', {
         group = deferred_clipboard_sync_group,
-        pattern = '*',
         callback = function()
             copy_register('+', '"')
         end
