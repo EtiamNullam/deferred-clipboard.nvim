@@ -81,7 +81,7 @@ local function is_register_empty(register)
     return vim.fn.getreg(register) == ''
 end
 
----@param value '' | 'unnamed' | 'unnamedplus'
+---@param value DeferredClipboard.Fallback
 local function setup_fallback(value)
     if value ~= nil then
         vim.o.clipboard = value
@@ -98,11 +98,6 @@ local function initialize_unnamed_register(lazy)
         end
     end
 end
-
----@class DeferredClipboard.InitOptions
-    ---@field lazy? boolean
-    ---@field fallback? '' | 'unnamed' | 'unnamedplus'
-    ---@field force_init_unnamed? boolean
 
 ---@param options? DeferredClipboard.InitOptions
 function M.setup(options)
