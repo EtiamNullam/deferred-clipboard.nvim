@@ -1,6 +1,8 @@
 local M = {}
 
-M.version = '0.7.0'
+M.version = '0.8.0'
+
+local content_after_latest_operation = nil
 
 ---@return boolean
 local function is_continuous_clipboard_sync_enabled()
@@ -27,14 +29,21 @@ end
 
 ---@param content? string
 function M.write(content)
-    content = type(content) == 'string' and content
-        or vim.fn.getreg('"')
+    if type(content) ~= 'string' then
+        if content_after_latest_operation == vim.fn.getreg('"') then
+            return
+        end
+
+        content = vim.fn.getreg('"')
+    end
 
     if content ~= '' then
         vim.fn.setreg(
             '+',
             content
         )
+
+        content_after_latest_operation = content
     end
 end
 
@@ -50,6 +59,8 @@ function M.read()
         '"',
         loaded_content
     )
+
+    content_after_latest_operation = loaded_content
 
     return loaded_content
 end
