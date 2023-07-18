@@ -18,6 +18,7 @@ local function schedule_disable_of_continuous_clipboard_sync_on_focus_change()
     vim.api.nvim_create_autocmd({
         'FocusGained',
         'FocusLost',
+        'CmdlineEnter',
     }, {
         once = true,
         group = group_id,
