@@ -110,6 +110,20 @@ local function initialize_unnamed_register(lazy)
     end
 end
 
+local function avoid_invalid_error_code_on_exit()
+    local group_id = vim.api.nvim_create_augroup(
+        'AvoidInvalidErrorCodeOnExit',
+        { clear = true }
+    )
+
+    vim.api.nvim_create_autocmd('VimLeave', {
+        group = group_id,
+        callback = function()
+            vim.api.nvim_command('sleep 10m')
+        end,
+    })
+end
+
 ---@param options? DeferredClipboard.InitOptions
 function M.setup(options)
     options = options or {}
@@ -123,6 +137,8 @@ function M.setup(options)
     elseif options.force_init_unnamed or is_register_empty('"') then
         initialize_unnamed_register(options.lazy)
     end
+
+    avoid_invalid_error_code_on_exit()
 end
 
 return M
