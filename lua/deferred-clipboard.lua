@@ -1,6 +1,6 @@
 local M = {}
 
-M.version = '0.8.0'
+M.version = '0.8.1'
 
 local content_after_latest_operation = nil
 
@@ -81,7 +81,9 @@ local function schedule_clipboard_sync_on_focus_change()
 
     vim.api.nvim_create_autocmd('FocusGained', {
         group = deferred_clipboard_sync_group,
-        callback = M.read,
+        callback = function()
+            M.read()
+        end,
     })
 end
 
