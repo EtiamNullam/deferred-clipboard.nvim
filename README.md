@@ -11,7 +11,6 @@ This plugin synchronizes the clipboard of your operating system with [`Neovim`](
 
 It works both ways so you can `y`ank something in `Neovim` to be available in your OS, but also copy something in your OS and `p`ut in `Neovim`.
 
-
 The content of system clipboard will also be written to the unnamed register (`"`) on `.setup()` if its empty, and read from unnamed register (`"`) just before `Neovim` exits, so your latest yank won't be lost even if your client doesn't support focus change events.
 
 ### [Vim](https://www.vim.org)
@@ -47,7 +46,7 @@ If `fallback` is specified it will be applied as your `clipboard` setting until 
 
 #### Best performance
 
-You can use `lazy` option, off by default, to improve startup time by delaying access of system clipboard. Make sure to disable it if you run into any trouble, for example if you load `shada` on launch but still want the clipboard to be loaded into unnamed register (`"`).
+You can use `lazy` option (off by default) to improve startup time by delaying access of system clipboard. Make sure to disable it if you run into any trouble, for example if you load `shada` on launch but still want the clipboard to be loaded into unnamed register (`"`).
 
 ```lua
 require('deferred-clipboard').setup {
@@ -77,11 +76,11 @@ require('deferred-clipboard').setup {
 
 ### API
 
-Other than `setup()` described before, this plugin exposes a simple API. There is no need to call `setup()` prior to using it.
+Other than `setup()` described before, this plugin exposes a simple API. There is no need to call `setup()` prior to using the API.
 
 #### `read() -> string | nil`
 
-It will load content of your system clipboard and place it in your `unnamed` register (`"`). It will also return the content of system clipboard unless it's invalid, in that case it will return `nil`.
+It will load content of your system clipboard and place it in your `unnamed` register (`"`). It will also return the content of system clipboard unless it's invalid - in that case it will return `nil`.
 
 ##### Example:
 
